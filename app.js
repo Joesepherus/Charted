@@ -156,9 +156,7 @@ app.get('/scrapper', async function (req, res) {
         var $ = cheerio.load(html);
         var counter = 1;
         var title, release, rating;
-        if(collections.find(function(elem){
-          elem === "billboard"
-        })) {
+        if(collections.includes('billboard'))
           db.collection("billboard").drop();
         }
         else {
@@ -169,7 +167,7 @@ app.get('/scrapper', async function (req, res) {
       (async(function asyncCall() {
         while (counter < 100) {
           if (counter === 1) {
-            author = $('.chart-element__information__song').first().text();
+            author = $('.chart-element__information__artist').first().text();
             console.log("author: ", author)
             author = author.replace(/(\r\n|\n|\r)/gm, "");
             title = $('.chart-element__information__song').first().text();
@@ -225,9 +223,7 @@ app.get('/scrapper', async function (req, res) {
       if (obj.table.length > 0) {
         logger.info(url + " successfuly scraped.")
         // delete collection 
-        if(collections.find(function(elem){
-          elem === "officialcharts"
-        })) {
+        if(collections.inlcudes('officialcharts')) {
           db.collection('officialcharts').drop()
           logger.info("collection officialcharts deleted");
         }
