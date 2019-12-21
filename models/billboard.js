@@ -16,7 +16,7 @@ var schema = mongoose.Schema({
 }, { _id: false });
 
 
-var Billboard = module.exports = mongoose.model('billboards', schema);
+var Billboard = module.exports = mongoose.model('billboard', schema);
 
 module.exports.getAllSongs = function (callback, limit) {
 	// Billboard.find(callback).limit(limit);
