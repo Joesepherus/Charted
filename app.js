@@ -162,29 +162,22 @@ app.get('/scrapper', async function (req, res) {
         else {
           logger.info("unable to drop billboard")
         }
+        $('.track').each(function () {
+          if (counter <= 101) {
+            author = $(this).find('.chart-element__information__artist').text();
+            title = $(this).find('.chart-element__information__song').text();
+            author = author.replace(/(\r\n|\n|\r)/gm, "");
+            title = title.replace(/(\r\n\t|\n|\r\t)/gm, "");
+            console.log("author: ", author)
+            console.log('title: ', title);
+            data = (JSON.parse('{\n\t"id": "' + counter + '",\n\t"title": "' + title + '",\n\t"author": "' + author + '"\n}'));
+            counter++;
+          }
+        })
       }
 
-      (async(function asyncCall() {
-        while (counter < 100) {
-            author = $('.chart-element__information__artist').find().text();
-            console.log("author: ", author)
-            author = author.replace(/(\r\n|\n|\r)/gm, "");
-            title = $('.chart-element__information__song').find().text();
-            title = title.replace(/(\r\n\t|\n|\r\t)/gm, "");
-            logger.info('calling');
-            data = (JSON.parse('{\n\t"id": "' + counter + '",\n\t"title": "' + title + '",\n\t"author": "' + author + '"\n}'));
-
-            // var result = await(searchYoutube(title, author, function (data) {
-            //   console.log("author: ", author)
-            //   console.log("title: ", title)
-            //   console.log('{\n\t"id": "' + counter + '",\n\t"title": "' + title + '",\n\t"author": "' + author + '",\n\t"url": "' + data.items[0].id.videoId + '"\n}')
-            //   obj.table.push(JSON.parse('{\n\t"id": "' + counter + '",\n\t"title": "' + title + '",\n\t"author": "' + author + '",\n\t"url": "' + data.items[0].id.videoId + '"\n}'));
-            //   logger.info(data);
-            // }));
-            counter++;
-        }
-        console.log('obj.table.length: ', obj.table.length);
-        if (obj.table.length > 0) {
+      console.log('obj.table.length: ', obj.table.length);
+      if (obj.table.length > 0) {
         logger.info(url + ' successfuly scraped.')
 
         // add new songs to the collection
@@ -194,8 +187,6 @@ app.get('/scrapper', async function (req, res) {
       } else {
         logger.info(url + ' is not responding')
       }
-
-      }))();
     })
   }
 
