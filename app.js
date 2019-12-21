@@ -162,7 +162,7 @@ app.get('/scrapper', async function (req, res) {
         else {
           logger.info("unable to drop billboard")
         }
-        $('.chart-list__elements').each(function () {
+        $('.chart-element__information').each(function () {
           if (counter <= 101) {
             author = $(this).find('.chart-element__information__artist').text();
             title = $(this).find('.chart-element__information__song').text();
