@@ -53,7 +53,6 @@ mongoose.connect(MONGOLAB_URI, { useMongoClient: true }, async function (error) 
   for(i = 0; i < collectionsRaw.length; i++) {
     collections.push(collectionsRaw[i].name)
   }
-    console.log('collections: ', collections.find('billboard'));
 });
 
 var test;
