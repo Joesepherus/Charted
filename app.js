@@ -43,16 +43,17 @@ logger.info("Starting application");
 // DB SETUP
 MONGOLAB_URI = process.env.MONGOLAB_URI;
 console.log(process.env.MONGOLAB_URI)
-let collections
+let collections = []
 
 logger.info("Initializing connection to MongoDB");
 mongoose.connect(MONGOLAB_URI, { useMongoClient: true }, async function (error) {
   if (error) console.error(error);
   else logger.info("Successfuly connected to MongoDB");
-  collections = await mongoose.connection.db.listCollections().toArray().map(
-    collection => collection.name
-  )
-  console.log('collections: ', collections);
+  const collectionsRaw = await mongoose.connection.db.listCollections().toArray()
+  for(i = 0; i < collectionsRaw.length; i++) {
+    collections.push(collectionsRaw[i].name)
+  }
+    console.log('collections: ', collections.find('billboard'));
 });
 
 var test;
@@ -156,7 +157,9 @@ app.get('/scrapper', async function (req, res) {
         var $ = cheerio.load(html);
         var counter = 1;
         var title, release, rating;
-        if(collections.find("billboards")) {
+        if(collections.find(function(elem){
+          elem === "billboards"
+        })) {
           db.collection("billboards").drop();
         }
         else {
@@ -250,7 +253,9 @@ app.get('/scrapper', async function (req, res) {
       if (obj.table.length > 0) {
         logger.info(url + " successfuly scraped.")
         // delete collection 
-        if (collections.find('officialcharts')) {
+        if(collections.find(function(elem){
+          elem === "officialcharts"
+        })) {
           db.collection('officialcharts').drop()
         }
         else {
