@@ -179,20 +179,24 @@ app.get('/scrapper', async function (req, res) {
               console.log("author: ", author)
               console.log("title: ", title)
               console.log('{\n\t"id": "' + counter + '",\n\t"title": "' + title + '",\n\t"author": "' + author + '",\n\t"url": "' + data.items[0].id.videoId + '"\n}')
-              data = (JSON.parse('{\n\t"id": "' + counter + '",\n\t"title": "' + title + '",\n\t"author": "' + author + '",\n\t"url": "' + data.items[0].id.videoId + '"\n}'));
+              obj.table.push(JSON.parse('{\n\t"id": "' + counter + '",\n\t"title": "' + title + '",\n\t"author": "' + author + '",\n\t"url": "' + data.items[0].id.videoId + '"\n}'));
               logger.info(data);
             }));
 
-            db.collection("billboard").insertOne(data, function (err, res) {
-              logger.info('err: ', err);
-              if (err) throw err;
-              logger.info("1 document inserted to billboard collection");
-            });
-            logger.info(result);
-            logger.info("______________________________________________");
             counter++;
           }
         }
+        if (obj.table.length > 0) {
+        logger.info(url + ' successfuly scraped.')
+
+        // add new songs to the collection
+        db.collection('billboard').insertMany(obj.table, function (err, r) {
+          logger.info('inserted songs to collection billboard')
+        })
+      } else {
+        logger.info(url + ' is not responding')
+      }
+
       }))();
     })
   }
