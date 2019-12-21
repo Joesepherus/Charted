@@ -157,12 +157,12 @@ app.get('/scrapper', async function (req, res) {
         var counter = 1;
         var title, release, rating;
         if(collections.find(function(elem){
-          elem === "billboards"
+          elem === "billboard"
         })) {
-          db.collection("billboards").drop();
+          db.collection("billboard").drop();
         }
         else {
-          logger.info("unable to drop billboards")
+          logger.info("unable to drop billboard")
         }
       }
 
@@ -185,7 +185,7 @@ app.get('/scrapper', async function (req, res) {
               logger.info(data);
             }));
 
-            db.collection("billboards").insertOne(data, function (err, res) {
+            db.collection("billboard").insertOne(data, function (err, res) {
               if (err) throw err;
               logger.info("1 document inserted to billboard collection");
             });
