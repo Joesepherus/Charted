@@ -166,7 +166,6 @@ app.get('/scrapper', async function (req, res) {
 
       (async(function asyncCall() {
         while (counter < 100) {
-          if (counter === 1) {
             author = $('.chart-element__information__artist').first().text();
             console.log("author: ", author)
             author = author.replace(/(\r\n|\n|\r)/gm, "");
@@ -182,10 +181,9 @@ app.get('/scrapper', async function (req, res) {
               obj.table.push(JSON.parse('{\n\t"id": "' + counter + '",\n\t"title": "' + title + '",\n\t"author": "' + author + '",\n\t"url": "' + data.items[0].id.videoId + '"\n}'));
               logger.info(data);
             }));
-
             counter++;
-          }
         }
+        console.log('obj.table.length: ', obj.table.length);
         if (obj.table.length > 0) {
         logger.info(url + ' successfuly scraped.')
 
