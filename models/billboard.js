@@ -21,5 +21,5 @@ var Billboard = module.exports = mongoose.model('billboard', schema);
 module.exports.getAllSongs = function (callback, limit) {
 	// Billboard.find(callback).limit(limit);
 
-	Billboard.find(callback).sort({ $natural: -1 }).limit(100);
+	Billboard.find(callback).limit();
 }
