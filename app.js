@@ -169,7 +169,7 @@ app.get('/scrapper', async function (req, res) {
       (async(function asyncCall() {
         while (counter < 100) {
           if (counter === 1) {
-            author = $('.chart-number-chart-element__information__artist ').first().text();
+            author = $('.chart-element__information__song').first().text();
             console.log("author: ", author)
             author = author.replace(/(\r\n|\n|\r)/gm, "");
             title = $('.chart-element__information__song').first().text();
@@ -192,33 +192,6 @@ app.get('/scrapper', async function (req, res) {
             logger.info(result);
             logger.info("______________________________________________");
             counter++;
-          }
-          else {
-            $('.chart-list-item__text').each(function () {
-              author = $(this).find('.chart-list-item__artist').first().text();
-              console.log("author: ", author)
-              author = removeWhiteSpace(author)
-              title = $(this).find('.chart-list-item__title').first().text();
-              title = removeWhiteSpace(title);
-              logger.info('calling');
-              data = (JSON.parse('{\n\t"id": "' + counter + '",\n\t"title": "' + title + '",\n\t"author": "' + author + '"\n}'));
-
-              var result = await(searchYoutube(title, author, function (data) {
-                console.log("author: ", author)
-                console.log("title: ", title)
-                console.log('{\n\t"id": "' + counter + '",\n\t"title": "' + title + '",\n\t"author": "' + author + '",\n\t"url": "' + data.items[0].id.videoId + '"\n}')
-                data = (JSON.parse('{\n\t"id": "' + counter + '",\n\t"title": "' + title + '",\n\t"author": "' + author + '",\n\t"url": "' + data.items[0].id.videoId + '"\n}'));
-                logger.info(data);
-              }));
-
-              db.collection("billboards").insertOne(data, function (err, res) {
-                if (err) throw err;
-                logger.info("1 document inserted to billboard collection");
-              });
-              logger.info(result);
-              logger.info("______________________________________________");
-              counter++;
-            })
           }
         }
       }))();
@@ -256,11 +229,11 @@ app.get('/scrapper', async function (req, res) {
           elem === "officialcharts"
         })) {
           db.collection('officialcharts').drop()
+          logger.info("collection officialcharts deleted");
         }
         else {
           logger.info("unable to drop officialcharts")
         }
-        logger.info("collection officialcharts deleted");
 
         // add new songs to the collection
         db.collection("officialcharts").insertMany(obj.table, function (err, r) {
