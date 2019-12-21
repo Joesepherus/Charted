@@ -286,13 +286,7 @@ app.get('/api/billboards', function (req, res) {
     if (err) {
       throw err;
     }
-    if (allSongs.length > 0 && allSongs[0].id != 100) {
-      logger.info("Had to load the old version of scrapped billboard website, because scrapping is now in progress");
-      res.json(test);
-    }
-    else {
-      res.json(allSongs);
-    }
+    res.json(allSongs);
   });
 })
 
