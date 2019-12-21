@@ -43,19 +43,21 @@ logger.info("Starting application");
 // DB SETUP
 MONGOLAB_URI = process.env.MONGOLAB_URI;
 console.log(process.env.MONGOLAB_URI)
+let collections
 
 logger.info("Initializing connection to MongoDB");
-mongoose.connect(MONGOLAB_URI, { useMongoClient: true }, function (error) {
+mongoose.connect(MONGOLAB_URI, { useMongoClient: true }, async function (error) {
   if (error) console.error(error);
   else logger.info("Successfuly connected to MongoDB");
+  collections = await mongoose.connection.db.listCollections().toArray().map(
+    collection => collection.name
+  )
+  console.log('collections: ', collections);
 });
 
 var test;
 
 app.get('/scrapper', async function (req, res) {
-  const collections = (await db.listCollections().toArray()).map(
-    collection => collection.name
-  )
 
   clientIP = getClientIP(req);
   logger.info('Got a connection from IP address' + clientIP + ' to send logger');
