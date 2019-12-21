@@ -170,7 +170,7 @@ app.get('/scrapper', async function (req, res) {
             title = title.replace(/(\r\n\t|\n|\r\t)/gm, "");
             console.log("author: ", author)
             console.log('title: ', title);
-            data = (JSON.parse('{\n\t"id": "' + counter + '",\n\t"title": "' + title + '",\n\t"author": "' + author + '"\n}'));
+            obj.table.push(JSON.parse('{\n\t"id": "' + counter + '",\n\t"title": "' + title + '",\n\t"author": "' + author + '"\n}'));
             counter++;
           }
         })
