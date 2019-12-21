@@ -157,12 +157,12 @@ app.get('/scrapper', async function (req, res) {
         var counter = 1;
         var title, release, rating;
         if(collections.find(function(elem){
-          elem === "billboards"
+          elem === "billboard"
         })) {
-          db.collection("billboards").drop();
+          db.collection("billboard").drop();
         }
         else {
-          logger.info("unable to drop billboards")
+          logger.info("unable to drop billboard")
         }
       }
 
