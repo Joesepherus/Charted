@@ -166,21 +166,21 @@ app.get('/scrapper', async function (req, res) {
 
       (async(function asyncCall() {
         while (counter < 100) {
-            author = $('.chart-element__information__artist').first().text();
+            author = $('.chart-element__information__artist').find().text();
             console.log("author: ", author)
             author = author.replace(/(\r\n|\n|\r)/gm, "");
-            title = $('.chart-element__information__song').first().text();
+            title = $('.chart-element__information__song').find().text();
             title = title.replace(/(\r\n\t|\n|\r\t)/gm, "");
             logger.info('calling');
             data = (JSON.parse('{\n\t"id": "' + counter + '",\n\t"title": "' + title + '",\n\t"author": "' + author + '"\n}'));
 
-            var result = await(searchYoutube(title, author, function (data) {
-              console.log("author: ", author)
-              console.log("title: ", title)
-              console.log('{\n\t"id": "' + counter + '",\n\t"title": "' + title + '",\n\t"author": "' + author + '",\n\t"url": "' + data.items[0].id.videoId + '"\n}')
-              obj.table.push(JSON.parse('{\n\t"id": "' + counter + '",\n\t"title": "' + title + '",\n\t"author": "' + author + '",\n\t"url": "' + data.items[0].id.videoId + '"\n}'));
-              logger.info(data);
-            }));
+            // var result = await(searchYoutube(title, author, function (data) {
+            //   console.log("author: ", author)
+            //   console.log("title: ", title)
+            //   console.log('{\n\t"id": "' + counter + '",\n\t"title": "' + title + '",\n\t"author": "' + author + '",\n\t"url": "' + data.items[0].id.videoId + '"\n}')
+            //   obj.table.push(JSON.parse('{\n\t"id": "' + counter + '",\n\t"title": "' + title + '",\n\t"author": "' + author + '",\n\t"url": "' + data.items[0].id.videoId + '"\n}'));
+            //   logger.info(data);
+            // }));
             counter++;
         }
         console.log('obj.table.length: ', obj.table.length);
