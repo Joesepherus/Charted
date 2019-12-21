@@ -156,7 +156,7 @@ app.get('/scrapper', async function (req, res) {
         var $ = cheerio.load(html);
         var counter = 1;
         var title, release, rating;
-        if(collections.includes('billboard'))
+        if(collections.includes('billboard')){
           db.collection("billboard").drop();
         }
         else {
@@ -223,7 +223,7 @@ app.get('/scrapper', async function (req, res) {
       if (obj.table.length > 0) {
         logger.info(url + " successfuly scraped.")
         // delete collection 
-        if(collections.inlcudes('officialcharts')) {
+        if(collections.includes('officialcharts')) {
           db.collection('officialcharts').drop()
           logger.info("collection officialcharts deleted");
         }
