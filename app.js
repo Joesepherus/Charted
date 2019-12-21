@@ -184,6 +184,7 @@ app.get('/scrapper', async function (req, res) {
             }));
 
             db.collection("billboard").insertOne(data, function (err, res) {
+              logger.info('err: ', err);
               if (err) throw err;
               logger.info("1 document inserted to billboard collection");
             });
