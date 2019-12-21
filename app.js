@@ -169,10 +169,10 @@ app.get('/scrapper', async function (req, res) {
       (async(function asyncCall() {
         while (counter < 100) {
           if (counter === 1) {
-            author = $('.chart-number-one__artist').first().text();
+            author = $('.chart-number-chart-element__information__artist ').first().text();
             console.log("author: ", author)
             author = author.replace(/(\r\n|\n|\r)/gm, "");
-            title = $('.chart-number-one__title').first().text();
+            title = $('.chart-element__information__song').first().text();
             title = title.replace(/(\r\n\t|\n|\r\t)/gm, "");
             logger.info('calling');
             data = (JSON.parse('{\n\t"id": "' + counter + '",\n\t"title": "' + title + '",\n\t"author": "' + author + '"\n}'));
