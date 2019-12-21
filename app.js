@@ -52,7 +52,10 @@ mongoose.connect(MONGOLAB_URI, { useMongoClient: true }, function (error) {
 
 var test;
 
-app.get('/scrapper', function (req, res) {
+app.get('/scrapper', async function (req, res) {
+  const collections = (await db.listCollections().toArray()).map(
+    collection => collection.name
+  )
 
   clientIP = getClientIP(req);
   logger.info('Got a connection from IP address' + clientIP + ' to send logger');
@@ -151,10 +154,11 @@ app.get('/scrapper', function (req, res) {
         var $ = cheerio.load(html);
         var counter = 1;
         var title, release, rating;
-        try {
+        if(collections.find("billboards")) {
           db.collection("billboards").drop();
-        } catch (error) {
-          console.log('Error while deleting collection billboards: ', error)
+        }
+        else {
+          logger.info("unable to drop billboards")
         }
       }
 
@@ -244,11 +248,11 @@ app.get('/scrapper', function (req, res) {
       if (obj.table.length > 0) {
         logger.info(url + " successfuly scraped.")
         // delete collection 
-        try {
-          db.collection("officialcharts").drop();
+        if (collections.find('officialcharts')) {
+          db.collection('officialcharts').drop()
         }
-        catch(error) {
-          console.log("Error while deleting collection officialcharts: ", error);
+        else {
+          logger.info("unable to drop officialcharts")
         }
         logger.info("collection officialcharts deleted");
 
